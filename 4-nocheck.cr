@@ -1,4 +1,4 @@
-# stripped down version without board display or error checking
+# stripped down version without board display or error checking - go functional or go home
 
 require "set"
 
