@@ -1,3 +1,5 @@
+# use a hash table indexed by x,y tuples, so we don't need to know in advance how large the grid is or pre-fill
+# arrays; it also makes the final count easier
 grid = Hash(Tuple(Int32, Int32), Int32).new(default_value: 0)
 
 STDIN.each_line(chomp: true) do |line|
