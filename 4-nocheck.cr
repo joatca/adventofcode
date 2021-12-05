@@ -1,19 +1,18 @@
 # stripped down version without board display or error checking
 
-require "bit_array"
 require "set"
 
 class Board
 
   def initialize
     @board = Array(Array(Int32)).new # don't initialize all elements yet
-    @marked = Array(BitArray).new
+    @marked = Array(Array(Bool)).new
     @winning_number = nil
   end
 
   def add_row(row : Array(Int32))
     @board << row
-    @marked << BitArray.new(row.size, false)
+    @marked << [ false ] * row.size
   end
 
   # mark the board and return true if it has just won; we assume each number appears at most once per board
