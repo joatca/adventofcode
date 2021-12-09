@@ -10,7 +10,7 @@ STDIN.each_line(chomp: true).each_with_index do |line, y|
     map[{x, y}] = ch.to_i
     width = {x, width}.max
   end
-  height = {height, y}.max
+  height += 1
 end
 
 low_points = Array(Point).new
@@ -29,6 +29,6 @@ end
 
 puts "Low points: #{low_points.inspect}"
 
-largest_basins = low_points.map { |lp| find_basin_size(map, lp[0], lp[1]) }.sort_by! { |size| -size }
+largest_basins = low_points.map { |lp| find_basin_size(map, lp[0], lp[1]) }.sort_by! { |size| -size }[0,3]
 
-puts "Largest basin sizes #{largest_basins.inspect} top 3 product #{largest_basins[0,3].product}"
+puts "Largest basin sizes #{largest_basins.inspect} top 3 product #{largest_basins.product}"
