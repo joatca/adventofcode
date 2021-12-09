@@ -1,3 +1,5 @@
+# we assume here that every basin has exactly one low point
+
 alias Point = Tuple(Int32, Int32)
 
 map = Hash(Point, Int32).new { |h, k| h[k] = 9 } # default is always high, makes checking below easier
