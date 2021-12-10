@@ -27,4 +27,4 @@ def find_illegal(s : String)
   return 0
 end
 
-puts STDIN.each_line(chomp: true).map { |navsys|find_illegal(navsys) }.sum
+puts STDIN.each_line(chomp: true).map { |navsys| find_illegal(navsys) }.sum
