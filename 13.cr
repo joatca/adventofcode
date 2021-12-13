@@ -92,16 +92,6 @@ class Paper
     end
   end
 
-  def print_grid(msg : String, grid : Array(Array(Bool)))
-    puts msg
-    grid.each do |row|
-      row.each do |cell|
-        STDOUT << (cell ? '#' : '.')
-      end
-      STDOUT << '\n'
-    end
-  end
-
   def dot_count
     @grid.map { |row| row.count(true) }.sum
   end
