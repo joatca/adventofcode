@@ -5,7 +5,7 @@ input = STDIN.each_line(chomp: true).map { |line|
 
 # add convenience methods to the existing Range
 struct Range(B, E)
-  def includes?(other : Range(B, E))
+  def encloses?(other : Range(B, E))
     self.begin <= other.begin && self.end >= other.end
   end
 
@@ -15,7 +15,7 @@ struct Range(B, E)
 end
 
 puts "Part 1:" # in how many does one pair completely include the other?
-puts input.count { |pair| pair.first.includes?(pair.last) || pair.last.includes?(pair.first) }
+puts input.count { |pair| pair.first.encloses?(pair.last) || pair.last.encloses?(pair.first) }
 
 puts "Part 2:" # in how many do the pairs overlap at all?
 puts input.count { |pair| pair.first.overlaps?(pair.last) }
