@@ -3,13 +3,19 @@ input = STDIN.each_line(chomp: true).map { |line|
   { (pair_res[1].to_i)..(pair_res[2].to_i), (pair_res[3].to_i)..(pair_res[4].to_i) }
 }.to_a
 
+# re-open Range to add convenience methods
+struct Range(B, E)
+  def includes?(other : Range(B, E))
+    self.begin <= other.begin && self.end >= other.end
+  end
+
+  def overlaps?(other : Range(B, E))
+    !(self.end < other.begin || self.begin > other.end)
+  end
+end
+
 puts "Part 1:" # in how many does one pair completely include the other?
-puts input.count { |pair|
-  (pair.first.begin <= pair.last.begin && pair.first.end >= pair.last.end) ||
-    (pair.last.begin <= pair.first.begin && pair.last.end >= pair.first.end)
-}
+puts input.count { |pair| pair.first.includes?(pair.last) || pair.last.includes?(pair.first) }
 
 puts "Part 2:" # in how many do the pairs overlap at all?
-puts input.count { |pair|
-  !(pair.first.end < pair.last.begin || pair.first.begin > pair.last.end)
-}
+puts input.count { |pair| pair.first.overlaps?(pair.last) }
