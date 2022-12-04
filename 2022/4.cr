@@ -3,7 +3,7 @@ input = STDIN.each_line(chomp: true).map { |line|
   { (pair_res[1].to_i)..(pair_res[2].to_i), (pair_res[3].to_i)..(pair_res[4].to_i) }
 }.to_a
 
-# re-open Range to add convenience methods
+# add convenience methods to the existing Range
 struct Range(B, E)
   def includes?(other : Range(B, E))
     self.begin <= other.begin && self.end >= other.end
