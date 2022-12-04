@@ -1,3 +1,4 @@
+# slurp input in as an Array(Tuple(Range(Int32, Int32), Range(Int32, Int32)))
 input = STDIN.each_line(chomp: true).map { |line|
   pair_res = line.scan(/^(\d+)-(\d+),(\d+)-(\d+)$/).first # raises empty enumerable if there's no match
   { (pair_res[1].to_i)..(pair_res[2].to_i), (pair_res[3].to_i)..(pair_res[4].to_i) }
