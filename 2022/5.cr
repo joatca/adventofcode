@@ -1,13 +1,9 @@
-stacks1 = [] of Array(String)
-
+stacks1 = Hash(Int32, Array(String)).new { |h, k| h[k] = [] of String }
 STDIN.each_line(chomp: true) do |line|
   break if line =~ /^(\s\d+\s*)*$/ # label line ends the stack definition
   crates = line.scan(/(\[(.)\]|\s\s\s)\s?/).map { |match| match[2]? || " " }
-  while stacks1.size < crates.size # allows ragged input lines
-    stacks1 << Array(String).new
-  end
   # this is slow, but simpler than pushing then reversing later
-  crates.each_with_index do |crate, i|
+  crates.each_with_index(offset: 1) do |crate, i|
     stacks1[i].insert(0, crate) unless crate == " "
   end
 end
@@ -24,15 +20,15 @@ end
 instructions.each do |i|
   # pop and push one at a time
   i.count.times do
-    stacks1[i.to-1].push(stacks1[i.from-1].pop)
+    stacks1[i.to].push(stacks1[i.from].pop)
   end
   # pop the entire count first, then push in the same order
-  stacks2[i.from-1].pop(i.count).each do |popped|
-    stacks2[i.to-1].push(popped)
+  stacks2[i.from].pop(i.count).each do |popped|
+    stacks2[i.to].push(popped)
   end
 end
 
 puts "Part 1:"
-puts stacks1.map(&.last).join
+puts stacks1.keys.sort.map { |k| stacks1[k].last }.join
 puts "Part 2:"
-puts stacks2.map(&.last).join
+puts stacks2.keys.sort.map { |k| stacks2[k].last }.join
