@@ -2,19 +2,20 @@
 # marker + 1
 class ElvenMarkerDetector(T)
   def initialize(@marker_length : Int32)
-    @buffer = Deque(T).new(initial_capacity: @marker_length + 1)
+    @queue = Deque(T).new(initial_capacity: @marker_length + 1)
     @counts = Hash(T, Int32).new(default_value: 0)
   end
 
   def add(v : T)
     @counts[v] += 1
-    @buffer.push(v)
-    if @buffer.size > @marker_length
-      t = @buffer.shift
+    @queue.push(v)
+    if @queue.size > @marker_length # do we need to drop the oldest entry in the queue?
+      t = @queue.shift
       @counts[t] -= 1
-      @counts.delete(t) if @counts[t] == 0
+      @counts.delete(t) if @counts[t] == 0 # ensure that we can use #size to determine the number of unique
+                                           # characters; if we have @marker_length entries then all are unique
     end
-    marker?
+    marker? # return true if all characters in the queue are unique
   end
 
   def marker?
