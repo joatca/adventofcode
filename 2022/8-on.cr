@@ -30,8 +30,7 @@ trees = STDIN.each_line(chomp: true).map { |line|
   line.each_char.map { |ch| Tree.new(ch.ord - '0'.ord) }.to_a
 }.to_a
 
-raise "empty grid" if trees.size == 0
-raise "ragged grid" if trees[1..].any? { |row| row.size != trees[0].size }
+raise "bad grid" if trees.size == 0 || trees[1..].any? { |row| row.size != trees[0].size }
 
 # process part 1 east/west first
 trees.each do |row|
