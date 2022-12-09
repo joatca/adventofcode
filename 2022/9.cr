@@ -12,12 +12,12 @@ struct Point
     Point.new(@x - other.x, @y - other.y)
   end
 
-  def abs
+  def abs_offset
     Point.new(@x.abs, @y.abs)
   end
 
   def touching?(other : Point)
-    diff = (self - other).abs
+    diff = (self - other).abs_offset
     diff.x <= 1 && diff.y <= 1
   end
 
