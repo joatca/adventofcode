@@ -1,7 +1,4 @@
-N = 0
-S = 1
-E = 2
-W = 3
+N = 0; S = 1; E = 2; W = 3
 
 class Tree
   DIR_SIZE = 4
@@ -26,10 +23,7 @@ class Tree
   end
 end
 
-trees = STDIN.each_line(chomp: true).map { |line|
-  line.each_char.map { |ch| Tree.new(ch.ord - '0'.ord) }.to_a
-}.to_a
-
+trees = STDIN.each_line(chomp: true).map { |line| line.each_char.map { |ch| Tree.new(ch.ord - '0'.ord) }.to_a }.to_a
 raise "bad grid" if trees.size == 0 || trees[1..].any? { |row| row.size != trees[0].size }
 
 # process part 1 east/west first
