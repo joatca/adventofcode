@@ -31,7 +31,7 @@ struct PlanckRope
 
   def initialize(x : Int32, y : Int32, knots : Int32)
     raise "need at least 2 knots" if knots < 2
-    @knots = knots.times.map { Point.new(x, y) }.to_a
+    @knots = Array(Point).new(knots, Point.new(x, y)) # since Point is a struct it's a value type, not a reference
     @tail_visited = Set(Point).new
     record_visit
   end
