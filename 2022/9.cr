@@ -4,25 +4,33 @@ struct Point
   def initialize(@x : Int32, @y : Int32)
   end
 
-  def +(other : Point)
-    Point.new(@x + other.x, @y + other.y)
+  def op_on_both # abstract out performing the same unary op on both x and y
+    Point.new(yield(@x), yield(@y))
+  end
+  
+  def op_on_both(other : Point) # and same for binary ops against another Point
+    Point.new(yield(@x, other.x), yield(@y, other.y))
   end
 
-  def -(other : Point)
-    Point.new(@x - other.x, @y - other.y)
+  def sign
+    op_on_both { |a| a.sign }
   end
 
   def abs_offset
-    Point.new(@x.abs, @y.abs)
+    op_on_both { |a| a.abs }
+  end
+  
+  def +(other : Point)
+    op_on_both(other) { |a, b| a+b }
+  end
+
+  def -(other : Point)
+    op_on_both(other) { |a, b| a-b }
   end
 
   def touching?(other : Point)
     diff = (self - other).abs_offset
     diff.x <= 1 && diff.y <= 1
-  end
-
-  def sign
-    Point.new(@x.sign, @y.sign)
   end
 end
 
