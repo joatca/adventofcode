@@ -5,8 +5,8 @@ raise "bad grid" if trees.size == 0 || trees[1..].any? { |row| row.size != trees
 visible, max_scenic_score = 0, 0
 range_x, range_y = 0..(trees[0].size-1), 0..(trees.size-1)
 # we don't need to check the edge trees - at least one direction will be zero so the product will be zero
-(1..(range_y.end-1)).each do |y|
-  (1..(range_x.end-1)).each do |x|
+(1...range_y.end).each do |y|
+  (1...range_x.end).each do |x|
     height = trees[y][x]
     is_visible, scenic_score = false, 1
     [ {0,1}, {1,0}, {0,-1}, {-1,0} ].each do |mx, my|
@@ -18,7 +18,7 @@ range_x, range_y = 0..(trees[0].size-1), 0..(trees.size-1)
         ix += mx; iy += my
       end
       scenic_score *= view_distance
-      is_visible ||= !range_x.includes?(ix) || !range_y.includes?(iy)) # if it fell off the end, must be visible
+      is_visible ||= !range_x.includes?(ix) || !range_y.includes?(iy) # if it fell off the end, must be visible
     end
     visible += 1 if is_visible
     max_scenic_score = [max_scenic_score, scenic_score].max
