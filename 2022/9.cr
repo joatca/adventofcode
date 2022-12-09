@@ -12,12 +12,16 @@ struct Point
     Point.new(yield(@x, other.x), yield(@y, other.y))
   end
 
+  def both_true? # and same but testing the same condition on both x and y
+    yield(@x) && yield(@y)
+  end
+
   def sign
-    op_on_both { |a| a.sign }
+    op_on_both(&.sign)
   end
 
   def abs_offset
-    op_on_both { |a| a.abs }
+    op_on_both(&.abs)
   end
   
   def +(other : Point)
@@ -30,7 +34,7 @@ struct Point
 
   def touching?(other : Point)
     diff = (self - other).abs_offset
-    diff.x <= 1 && diff.y <= 1
+    diff.both_true? { |a| a <= 1 }
   end
 end
 
