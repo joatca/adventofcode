@@ -27,8 +27,6 @@ struct Point
 end
 
 struct PlanckRope
-  @knots : Array(Point)
-
   def initialize(x : Int32, y : Int32, knots : Int32)
     raise "need at least 2 knots" if knots < 2
     @knots = Array(Point).new(knots, Point.new(x, y)) # since Point is a struct it's a value type, not a reference
