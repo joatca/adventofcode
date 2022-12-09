@@ -19,7 +19,7 @@ range_x, range_y = 0..(trees[0].size-1), 0..(trees.size-1)
       scenic_score *= view_distance
       is_visible ||= !range_x.includes?(ix) || !range_y.includes?(iy) # if it fell off the end, must be visible
     end
-    visible += 1 if is_visible
+    visible += is_visible ? 1 : 0
     max_scenic_score = [max_scenic_score, scenic_score].max
   end
 end
