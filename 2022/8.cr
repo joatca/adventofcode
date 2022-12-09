@@ -7,7 +7,6 @@ range_x, range_y = 0..(trees[0].size-1), 0..(trees.size-1)
 # we don't need to check the edge trees - at least one direction will be zero so the product will be zero
 (1...range_y.end).each do |y|
   (1...range_x.end).each do |x|
-    height = trees[y][x]
     is_visible, scenic_score = false, 1
     [ {0,1}, {1,0}, {0,-1}, {-1,0} ].each do |mx, my|
       view_distance = 0
