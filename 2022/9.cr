@@ -43,18 +43,16 @@ struct PlanckRope
   def move_head(direction : Point, count : Int32)
     count.times do
       @knots[0] += direction
-      tail_follow
+      tail_follow_step
     end
   end
 
-  # if necessary, move the tail closer to the head, per the rules
-  def tail_follow
+  # if necessary, move the tail knots after one head step, per the rules
+  def tail_follow_step
     (1...@knots.size).each do |ki|
-      until @knots[ki].touching?(@knots[ki-1]) # more general than required; currently equivalent to "unless"
-        @knots[ki] += (@knots[ki-1] - @knots[ki]).sign
-        record_visit
-      end
+      @knots[ki] += (@knots[ki-1] - @knots[ki]).sign unless @knots[ki].touching?(@knots[ki-1])
     end
+    record_visit
   end
 
   def tail_visit_count
