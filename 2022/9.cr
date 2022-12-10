@@ -83,4 +83,5 @@ puts rope.tail_visit_count(0)
 puts "Part 2:"
 puts rope.tail_visit_count(1)
 
-puts Time.local - start
+puts "Internal runtime: #{Time.local - start}"
+
