@@ -38,21 +38,18 @@ ss_total = 0
 CRT_WIDTH = 40
 CRT_HEIGHT = 6
 
-crt = Array(Array(Char)).new(CRT_HEIGHT) { |i| ['.'] * CRT_WIDTH }
+print "Part 2:"
 
 STDIN.each_line(chomp: true) do |line|
   cpu.execute(line) do |cycle, x|
     if note_cycles.includes?(cycle)
       ss_total += cpu.signal_strength
     end
-    row = (cycle-1) // CRT_WIDTH
-    col = (cycle-1) % CRT_WIDTH
-    crt[row][col] = '#' if ((col-1)..(col+1)).includes?(x)
+    row, col = (cycle-1) // CRT_WIDTH, (cycle-1) % CRT_WIDTH
+    print "\n" if col == 0
+    print ((col-1)..(col+1)).includes?(x) ? '#' : '.'
   end
 end
 
-puts "Part 1:"
+puts "\nPart 1:"
 puts ss_total
-
-puts "Part 2:"
-puts crt.map { |row| row.join }.join("\n")
