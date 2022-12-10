@@ -27,15 +27,17 @@ struct Point
 end
 
 struct PlanckRope
-  def initialize(x : Int32, y : Int32, knots : Int32)
+  def initialize(x : Int32, y : Int32, knots : Int32, @taps : Array(Int32))
     raise "need at least 2 knots" if knots < 2
     @knots = Array(Point).new(knots, Point.new(x, y)) # since Point is a struct it's a value type, not a reference
-    @tail_visited = Set(Point).new
+    @tail_visited = Array(Set(Point)).new(2) { |i| Set(Point).new }
     record_visit
   end
   
   def record_visit
-    @tail_visited << @knots.last
+    @taps.each_with_index do |tap, i|
+      @tail_visited[i] << @knots[tap]
+    end
   end
   
   def move_head(direction : Point, count : Int32)
@@ -53,10 +55,12 @@ struct PlanckRope
     record_visit
   end
 
-  def tail_visit_count
-    @tail_visited.size
+  def tail_visit_count(i : Int32)
+    @tail_visited[i].size
   end
 end
+
+start = Time.local
 
 MOVES = {
   "U" => Point.new(0, -1),
@@ -65,18 +69,18 @@ MOVES = {
   "R" => Point.new(1, 0)
 }
 
-short_rope = PlanckRope.new(0, 0, 2)
-long_rope = PlanckRope.new(0, 0, 10)
+rope = PlanckRope.new(0, 0, 10, [1, 9])
 
 STDIN.each_line(chomp: true) do |line|
   d, c = line.split
   direction, count = MOVES[d], c.to_i # raises if input is invalid
-  short_rope.move_head(direction, count)
-  long_rope.move_head(direction, count) # we could instead just track two points on the same rope, but meh
+  rope.move_head(direction, count)
 end
 
 puts "Part 1:"
-puts short_rope.tail_visit_count
+puts rope.tail_visit_count(0)
 
 puts "Part 2:"
-puts long_rope.tail_visit_count
+puts rope.tail_visit_count(1)
+
+puts Time.local - start
