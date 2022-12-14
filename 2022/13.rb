@@ -2,13 +2,12 @@ pairs = STDIN.each_line(sep="\n\n").map { |pair| pair.split("\n").map { |p| eval
 
 # this returns -1 if in order, +1 if not in order, 0 if indeterminate
 def rightorder(a, b)
-  return a <=> b if a.is_a?(Integer) && b.is_a?(Integer) # CHECKME
+  return a <=> b if a.is_a?(Integer) && b.is_a?(Integer)
   a = [a] if a.is_a?(Integer) && b.is_a?(Array)
   b = [b] if a.is_a?(Array) && b.is_a?(Integer)
   a.zip(b).each do |ae, be|
     return 1 if be.nil? # right list ran out of items
-    rv = rightorder(ae, be)
-    return rv unless rv == 0
+    rightorder(ae, be).tap { |rv| return rv unless rv == 0 }
   end
   return -1 if a.length < b.length # left side ran out of items
   return 0
