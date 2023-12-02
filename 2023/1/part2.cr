@@ -1,10 +1,5 @@
-words = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
-word_to_digit = words.each_with_index.map { |s, i|
-  [s, i+1]
-}.to_h
-revword_to_digit = words.map(&.reverse).each_with_index.map { |s, i|
-  [s, i+1]
-}.to_h
+word_to_digit = "one two three four five six seven eight nine".split.each_with_index(offset: 1).to_h
+revword_to_digit = word_to_digit.map { |s, i| {s.reverse, i} }.to_h
 word_matcher = /(#{word_to_digit.keys.join("|")})/
 revword_matcher = /(#{revword_to_digit.keys.join("|")})/
 puts ARGF.each_line.map { |line|
