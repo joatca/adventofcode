@@ -2,20 +2,15 @@ require "set"
 
 class Card
   property :matches, :copies
-  def initialize(@matches : Int32)
-    @copies = 1
-  end
+  def initialize(@matches : Int32, @copies : Int32 = 1) end
 end
 
-cards = Array(Card).new
+cards = [] of Card
 
-ARGF.each_line(chomp: true).each do |line|
-  if line =~ /^Card\s+(\d+):(.+)\|(.+)$/
-    num, winning, have = $1, $2.split.to_set, $3.split
-    cards << Card.new have.count { |num| winning.includes?(num) }
-  else
-    raise "invalid input line: #{line}"
-  end
+ARGF.each_line(chomp: true) do |line|
+  raise "invalid input line: #{line}" unless line =~ /^Card\s+\d+:(.+)\|(.+)$/
+  winning, have = $1.split.to_set, $2.split
+  cards << Card.new have.count { |num| winning.includes?(num) }
 end
 
 cards.each_with_index do |card, i|
