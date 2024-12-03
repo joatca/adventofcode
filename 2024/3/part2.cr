@@ -1,6 +1,6 @@
 sum, enabled = 0, true
 STDIN.each_line do |line|
-  line.scan(/do\(\)|don't\(\)|mul\((\d{1,3}),(\d{1,3})\)/).each do |match|
+  line.scan(/do\(\)|don't\(\)|mul\((\d{1,3}),(\d{1,3})\)/) do |match|
     case match[0]
     when "do()"
       enabled = true
