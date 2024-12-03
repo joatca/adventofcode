@@ -12,4 +12,3 @@ STDIN.each_line do |line|
   end
 end
 puts sum
-
