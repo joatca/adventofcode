@@ -6,7 +6,6 @@ data = STDIN.each_line(chomp: true).map { |line| line.chars }.to_a
 width = data[0].size
 raise "uneven input" unless data.all? { |d| d.size == width }
 padding = target.size - 1
-
 grid = Array.new(padding) { |i| [' '] * (width + padding * 2) } +
        data.map { |row| ([' '] * padding) + row + ([' '] * padding) } +
        Array.new(padding) { |i| [' '] * (width + padding * 2) }
