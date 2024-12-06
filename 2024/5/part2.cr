@@ -1,6 +1,4 @@
-require "set"
-
-rules = Hash(Int32, Set(Int32)).new { |h, k| h[k] = Set(Int32).new }
+befores = Hash(Int32, Array(Int32)).new { |h, k| h[k] = Array(Int32).new }
 updates = Array(Array(Int32)).new
 
 STDIN.each_line(chomp: true) do |line|
@@ -8,19 +6,36 @@ STDIN.each_line(chomp: true) do |line|
   when /^\s*$/
     next
   when /^(\d+)\|(\d+)$/
-    rules[$2.to_i] << $1.to_i
+    befores[$2.to_i] << $1.to_i
   when /^[\d,]+/
     updates << line.split(',').map { |s| s.to_i }
   end
 end
 
-middles = 0
+correct_tot, incorrect_tot = 0, 0
 updates.each do |update|
-  if update.size.times.any? { |i|
-       ((i+1)...update.size).any? { |j| rules[update[i]].includes?(update[j]) }
-     }
-    next
+  correct = true
+  update.size.times.each do |i|
+    j = i + 1
+    loop do
+      # find the first incorrect item
+      fi = (j...update.size).find { |k| befores[update[i]].includes?(update[k]) }
+      if fi.nil?
+        j += 1
+        break if j >= update.size
+      else
+        correct = false
+        # relocate the item
+        item = update.delete_at(fi)
+        update.insert(i, item)
+      end
+    end
   end
-  middles += update[update.size // 2]
+  if correct
+    correct_tot += update[update.size // 2]
+  else
+    incorrect_tot += update[update.size // 2]
+  end
 end
-puts middles
+puts "Correct #{correct_tot} incorrect #{incorrect_tot}"
+
