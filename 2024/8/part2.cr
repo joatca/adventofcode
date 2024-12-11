@@ -35,4 +35,4 @@ frequencies.each do |freq|
   end
 end
 
-p map.select { |a| a[:id] == '#' }.size
+puts map.select { |a| a[:id] == '#' }.size

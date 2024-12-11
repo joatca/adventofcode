@@ -33,7 +33,7 @@ end
 checksum = 0_i64
 index = 0
 disk.each do |file|
-  # well, this is clumsy
+  # well, this ended up more complex than it needed to be. Works though.
   if file.file?
     (index...(index + file.length)).each do |i|
       checksum += (file.file_id||0) * i

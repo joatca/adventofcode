@@ -22,10 +22,6 @@ loop do
     guard_x, guard_y = next_x, next_y
     map[guard_y][guard_x] = 'X'
   end
-  # puts "(#{guard_x},#{guard_y})"
-  # map.each do |row|
-  #   puts row.join("")
-  # end
 end
 
-puts "Visited #{map.reduce(0) { |a, row| a + row.count('X') }}"
+puts map.reduce(0) { |a, row| a + row.count('X') }

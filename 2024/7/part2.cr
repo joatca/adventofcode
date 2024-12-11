@@ -1,5 +1,3 @@
-#require "big"
-
 OPERATORS = {
   "+" => ->(a : Int64, b : Int64) { a + b },
   "*" => ->(a : Int64, b : Int64) { a * b },
