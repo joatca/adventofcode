@@ -1,5 +1,5 @@
 DEPTHS = [ 25, 75 ]
-stones = STDIN.each_line(chomp: true).map { |line| line.split.map { |s| s.to_i } }.flatten
+stones = STDIN.each_line.map { |line| line.split.map { |s| s.to_i } }.flatten
 
 cached_stone_counter = Hash.new { |h, k|
   depth, stone = k
