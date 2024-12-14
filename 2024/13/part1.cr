@@ -4,7 +4,7 @@ PRIZE_OFFSET = 10000000000000_i64
 
 def least_tokens(ca1 : Int64, ca2 : Int64, cb1 : Int64, cb2 : Int64, va : Int64, vb : Int64)
   # else try to solve this as a pair of simultaneous equations ca1×a + ca2×b = va and cb1×a + cb2×b == vb
-  # multiply each equation by the opposite's y coefficient
+  # multiply each equation by the opposite's b coefficient
   ca1, cb1, va, ca2, cb2, vb = ca1 * cb2, cb1 * cb2, va * cb2, ca2 * cb1, cb2 * cb1, vb * cb1
   # subtract one from the other; y coefficient will be zero so we only need to calculate x coefficient and the result
   c = ca1 - ca2
