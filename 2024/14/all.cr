@@ -43,8 +43,7 @@ class Map
     puts @height.times.map { |y| @width.times.map { |x| points.includes?({x, y}) ? 'X' : ' ' }.join }.join("\n")
   end
   def shape_size(points, current : Tuple(Int64, Int64))
-    if points.includes?(current)
-      points.delete(current)
+    if points.delete(current) # this returns true if it existed
       x, y = current.first, current.last
       1_i64 + shape_size(points, { x+1_i64, y }) + shape_size(points, { x-1_i64, y }) +
         shape_size(points, { x, y+1_i64 }) + shape_size(points, { x, y-1_i64 })
@@ -52,8 +51,9 @@ class Map
       0_i64
     end
   end
+  # this assumes that the xmas tree is a shape of at least SHAPE_MINIMUM adjacent robots
   def shape_exists
-    points = point_set
+    points = point_set # shape_size deletes points as it goes to avoid doubling-back
     while points.size > 0
       return true if shape_size(points, points.first) > SHAPE_MINIMUM
     end
@@ -61,9 +61,7 @@ class Map
   end
 end
 
-width = ARGV.shift.to_i64
-height = ARGV.shift.to_i64
-intervals = ARGV.map(&.to_i64)
+width, height, intervals = ARGV.shift.to_i64, ARGV.shift.to_i64, ARGV.map(&.to_i64)
 
 map = Map.new(width, height, STDIN)
 intervals.sort.each do |seconds|
