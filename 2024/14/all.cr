@@ -16,6 +16,7 @@ class Robot
 end
 
 class Map
+  SHAPE_MINIMUM = 20_i64
   @robots : Array(Robot)
   def initialize(@width : Int64, @height : Int64, io : IO)
     raise "invalid map" if @width % 2 == 0 || @height % 2 == 0
@@ -39,12 +40,7 @@ class Map
   end
   def render
     points = point_set
-    @height.times.each do |y|
-      @width.times.each do |x|
-        print (points.includes?({x, y}) ? 'X' : ' ')
-      end
-      puts ""
-    end
+    puts @height.times.map { |y| @width.times.map { |x| points.includes?({x, y}) ? 'X' : ' ' }.join }.join("\n")
   end
   def shape_size(points, current : Tuple(Int64, Int64))
     if points.includes?(current)
@@ -59,7 +55,7 @@ class Map
   def shape_exists
     points = point_set
     while points.size > 0
-      return true if shape_size(points, points.first) > 20_i64
+      return true if shape_size(points, points.first) > SHAPE_MINIMUM
     end
     false
   end
@@ -79,7 +75,7 @@ end
   map.move_to_seconds(seconds)
   if map.shape_exists
     map.render
-    puts "Part 2 found at #{seconds}s"
+    puts "Part 2 large shape found at #{seconds}s"
     break
   end
 end
